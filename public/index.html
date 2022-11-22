@@ -4,21 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="./css/estilo.css">
     <title>Firebase CRUD</title>
 </head>
-<body>
-    <form id="task-form" action="">
-    <label for="title">Title: </label>
-    <input type="text" placeholder="Task Title" id="task-title">
 
-        <label for="description">Description: </label>
-        <textarea id="task-description" rows="3" placeholder="Task Description"></textarea>
+<body class="bgDark">
 
-        <button id="btn-task-save">Save</button>
+    <div class="container_p_4">
 
-    </form>
+        <div class="row">
 
-    <div id="task-container"></div>
+            <div class="col-md_6">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h1>To Do Lists</h1>
+                        <h2 class="h4">Add Task</h2>
+                        <form id="task-form" action="">
+                            <div class="task-box">
+                        <label for="title"><b>Title: </b></label>
+                        <input type="text" placeholder="Task Title" id="task-title">
+                        <br>
+                        <label for="description"><b>Description: </b></label>
+                        <textarea id="task-description" rows="3" placeholder="Task Description"></textarea>
+                        
+                    </div>
+                        <button id="btn-task-save">Save</button>
+                        
+                    </form>
+
+                    </div>
+                </div> 
+                
+            </div>
+            
+            <div class="col-md_6">
+                
+            </div>
+            <div id="task-container"></div>
+
+        </div>
+
+    </div>
+    <div class="login-box">
+
     <script src="./index.js"></script>
     <script type="module" src="./index.js"></script>
     
