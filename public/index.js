@@ -3,7 +3,8 @@ import {saveTask,
         onGetTasks, 
         deleteTask, 
         getTask, 
-        updateTask
+        updateTask,
+        saveImage
     } from "./firebase.js";
 
 const taskForm = document.getElementById('task-form');
@@ -11,6 +12,13 @@ const taskContainer = document.getElementById('task-container');
 
 let editStatus = false;
 let id = '';
+
+const uploadFileAction = (e) => {
+    const file = e.target.files[0];
+
+    //console.log(file.type);
+    saveImage(file);
+}
 
 window.addEventListener('DOMContentLoaded', async () =>{
 
@@ -56,7 +64,7 @@ window.addEventListener('DOMContentLoaded', async () =>{
 
         console.log(btnsDelete);
     });
-
+    document.querySelector('#file-task').addEventListener('change', uploadFileAction);
 });
 
 
@@ -64,22 +72,28 @@ window.addEventListener('DOMContentLoaded', async () =>{
 taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const title = taskForm['task-title'];
-    const description = taskForm['task-description'];
+    const title = taskForm['task-title'].value;
+    const description = taskForm['task-description'].value;
 
     // saveTask(title.value, description.value);
     // console.log(title.value, description.value);
-
-    if(!editStatus){
-        saveTask(title.value, description.value);
+    if(title.length > 3 || description.length > 3){
+        
+        if(!editStatus){
+            saveTask(title, description);
+        }else{
+            updateTask(id, {
+                title: title,
+                description: description,
+            });
+    
+            editStatus = false;
+        }
+    
+        taskForm.reset();
     }else{
-        updateTask(id, {
-            title: title.value,
-            description: description.value,
-        });
-
-        editStatus = false;
+        alert('Debes escribir algo 🤔');
     }
+    })
+    
 
-    taskForm.reset();
-})
