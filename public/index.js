@@ -31,6 +31,7 @@ window.addEventListener('DOMContentLoaded', async () =>{
                 <div>
                     <h3>${task.title}</h3>
                     <p>${task.description}</p> 
+                    <img src='${task.imageUrl}' width="300px">
                     <button class='btn-delete' data-id="${doc.id}">Delete</button>
                     <button class='btn-edit' data-id="${doc.id}">Edit</button>
                 </div> 
@@ -74,13 +75,16 @@ taskForm.addEventListener('submit', (e) => {
 
     const title = taskForm['task-title'].value;
     const description = taskForm['task-description'].value;
+    const imageUrl = document.querySelector('#image').src;
 
     // saveTask(title.value, description.value);
     // console.log(title.value, description.value);
     if(title.length > 3 || description.length > 3){
         
         if(!editStatus){
-            saveTask(title, description);
+            saveTask(title, description, imageUrl);
+           document.querySelector('#image').src = '';
+
         }else{
             updateTask(id, {
                 title: title,
