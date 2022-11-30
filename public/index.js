@@ -1,11 +1,12 @@
-import {saveTask, 
-        getTasks, 
-        onGetTasks, 
-        deleteTask, 
-        getTask, 
-        updateTask,
-        saveImage
-    } from "./firebase.js";
+import {
+    saveTask,
+    getTasks,
+    onGetTasks,
+    deleteTask,
+    getTask,
+    updateTask,
+    saveImage
+} from "./firebase.js";
 
 const taskForm = document.getElementById('task-form');
 const taskContainer = document.getElementById('task-container');
@@ -20,35 +21,39 @@ const uploadFileAction = (e) => {
     saveImage(file);
 }
 
-window.addEventListener('DOMContentLoaded', async () =>{
+window.addEventListener('DOMContentLoaded', async () => {
 
-    onGetTasks((querySnapshot)=>{
+    onGetTasks((querySnapshot) => {
         let html = '';
-    
+
         querySnapshot.forEach(doc => {
             const task = doc.data();
             html += `
                 <div>
                     <h3>${task.title}</h3>
-                    <p>${task.description}</p> 
-                    <img src='${task.imageUrl}' width="300px">
+                    <p>${task.description}</p>`;
+            if (task.imageUrl) {
+                html += ` <img src='${task.imageUrl}' width="300px">`
+
+            }
+            html += `
                     <button class='btn-delete' data-id="${doc.id}">Delete</button>
                     <button class='btn-edit' data-id="${doc.id}">Edit</button>
                 </div> 
-            `; 
+            `;
         });
         taskContainer.innerHTML = html;
 
         const btnsDelete = taskContainer.querySelectorAll('.btn-delete');
 
         btnsDelete.forEach(btn => {
-            btn.addEventListener('click', ({target: { dataset}}) =>{
+            btn.addEventListener('click', ({ target: { dataset } }) => {
                 deleteTask(dataset.id)
             })
         })
 
         const btnsEdit = taskContainer.querySelectorAll('.btn-edit');
-        btnsEdit.forEach((btn) =>{
+        btnsEdit.forEach((btn) => {
             btn.addEventListener('click', async (e) => {
                 const doc = await getTask(e.target.dataset.id);
                 const task = doc.data();
@@ -79,25 +84,25 @@ taskForm.addEventListener('submit', (e) => {
 
     // saveTask(title.value, description.value);
     // console.log(title.value, description.value);
-    if(title.length > 3 || description.length > 3){
-        
-        if(!editStatus){
-            saveTask(title, description, imageUrl);
-           document.querySelector('#image').src = '';
+    if (title.length > 3 || description.length > 3) {
 
-        }else{
+        if (!editStatus) {
+            saveTask(title, description, imageUrl);
+            document.querySelector('#image').src = '';
+
+        } else {
             updateTask(id, {
                 title: title,
                 description: description,
             });
-    
+
             editStatus = false;
         }
-    
+
         taskForm.reset();
-    }else{
+    } else {
         alert('Debes escribir algo 🤔');
     }
-    })
-    
+})
+
 
